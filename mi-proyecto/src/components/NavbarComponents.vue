@@ -2,51 +2,48 @@
   <header class="top-header">
     <div class="header-content">
       <div class="logo-container">
-        <router-link to="/dashboard" class="logo-link">
-          <img src="@/assets/img/favicon.png" alt="U.R.E.S.A. Logo" class="site-logo" />
+        <router-link to="/dashboard" style="display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
+          <img src="@/assets/favicon.png" alt="U.R.E.S.A. Logo" class="site-logo">
           <div class="logo-text">
             <h1>U.R.E.S.A.</h1>
             <p>Universal Real Estate & Experiences</p>
           </div>
         </router-link>
       </div>
-      <div class="welcome-message">Bienvenido, Explorador Galáctico</div>
+      
+      <div class="welcome-message">
+        Bienvenido, {{ user.name || 'Explorador Galáctico' }}
+      </div>
+      
       <div class="header-actions">
-        <button @click="logout" class="logout-btn">Cerrar Sesión</button>
+        <button @click="handleLogout" class="logout-btn">Cerrar Sesión</button>
       </div>
     </div>
   </header>
 </template>
 
 <script>
+import { useAuth } from '@/composables/useAuth'
+
 export default {
   name: 'NavbarComponent',
-  methods: {
-    logout() {
-      this.$router.push('/login')
+  setup() {
+    const { user, logout } = useAuth()
+
+    const handleLogout = () => {
+      if (confirm('¿Salir del portal galáctico?')) {
+        logout()
+      }
+    }
+
+    return {
+      user,
+      handleLogout
     }
   }
 }
 </script>
 
 <style scoped>
-.top-header {
-  background-color: var(--color-primary);
-  color: var(--color-accent);
-  padding: 1rem;
-}
-.logo-link {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  text-decoration: none;
-  color: inherit;
-}
-.logout-btn {
-  background-color: var(--color-secondary);
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-}
+/* Los estilos están en components.scss */
 </style>
