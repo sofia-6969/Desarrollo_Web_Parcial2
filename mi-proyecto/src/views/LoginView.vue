@@ -1,4 +1,44 @@
 <template>
+  <div class="login-container min-vh-100 d-flex align-items-center justify-content-center bg-light">
+    <div class="card shadow-lg" style="width: 400px;">
+      <div class="card-body p-5">
+        <div class="text-center mb-4">
+          <h2 class="text-primary-custom fw-bold">🔥 Intimacy Shop</h2>
+          <p class="text-muted">Ingresa a tu cuenta</p>
+        </div>
+        
+        <form @submit.prevent="login">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input 
+              type="email" 
+              class="form-control" 
+              id="email" 
+              v-model="credentials.email"
+              required
+            >
+          </div>
+          
+          <div class="mb-4">
+            <label for="password" class="form-label">Contraseña</label>
+            <input 
+              type="password" 
+              class="form-control" 
+              id="password" 
+              v-model="credentials.password"
+              required
+            >
+          </div>
+          
+          <button type="submit" class="btn btn-primary-custom w-100 py-2">
+            Iniciar Sesión
+          </button>
+        </form>
+
+        <div v-if="error" class="alert alert-danger mt-3" role="alert">
+          {{ error }}
+        </div>
+=======
   <div class="login-page">
     <div class="starfield" ref="starfield"></div>
     
@@ -58,69 +98,4 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuth } from '@/composables/useAuth'
 
-export default {
-  name: 'LoginView',
-  setup() {
-    const router = useRouter()
-    const { login } = useAuth()
-    const starfield = ref(null)
-    const credentials = ref({
-      email: '',
-      password: ''
-    })
-    const error = ref('')
-
-    const handleLogin = () => {
-      if (login(credentials.value.email, credentials.value.password)) {
-        router.push('/dashboard')
-      } else {
-        error.value = 'Credenciales incorrectas. Verifique su identidad galáctica.'
-        setTimeout(() => {
-          error.value = ''
-        }, 3000)
-      }
-    }
-
-    const createStarfield = () => {
-      const starCount = 50
-      for (let i = 0; i < starCount; i++) {
-        const star = document.createElement('div')
-        star.className = 'star'
-        star.style.cssText = `
-          width: ${Math.random() * 3}px; 
-          height: ${Math.random() * 3}px;
-          left: ${Math.random() * 100}vw;
-          top: ${Math.random() * 100}vh; 
-          opacity: ${Math.random() * 0.7 + 0.3};
-          animation-duration: ${Math.random() * 3 + 2}s;
-        `
-        if (starfield.value) {
-          starfield.value.appendChild(star)
-        }
-      }
-    }
-
-    onMounted(() => {
-      createStarfield()
-    })
-
-    return {
-      starfield,
-      credentials,
-      error,
-      handleLogin
-    }
-  }
-}
-</script>
-
-<style scoped lang="scss">
-/* Solo estilos específicos del componente */
-.login-page {
-  min-height: 100vh;
-}
-</style>
