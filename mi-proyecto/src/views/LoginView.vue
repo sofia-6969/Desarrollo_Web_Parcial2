@@ -38,39 +38,64 @@
         <div v-if="error" class="alert alert-danger mt-3" role="alert">
           {{ error }}
         </div>
+=======
+  <div class="login-page">
+    <div class="starfield" ref="starfield"></div>
+    
+    <div class="login-container">
+      <div class="cosmic-header">
+        <div class="login-logo-container">
+          <img src="@/assets/favicon.png" alt="U.R.E.S.A. Logo" class="login-logo">
+          <div class="login-logo-text">
+            <h1>U.R.E.S.A.</h1>
+            <p>Universal Real Estate & Experiences S.A.</p>
+          </div>
+        </div>
+        <p class="subtitle">Acceso Exclusivo para Ciudadanos Galácticos</p>
+      </div>
+      
+      <form @submit.prevent="handleLogin" class="login-form">
+
+        <div class="input-group">
+          <label for="email">Correo Electrónico Cósmico:</label>
+          <input 
+            type="email" 
+            id="email" 
+            v-model="credentials.email"
+            required 
+            placeholder="ciudadano@uresa.com"
+            class="form-control cosmic-input"
+          >
+        </div>
+        
+        <div class="input-group">
+          <label for="password">Contraseña Dimensional:</label>
+          <input 
+            type="password" 
+            id="password" 
+            v-model="credentials.password"
+            required 
+            placeholder="••••••••"
+            class="form-control cosmic-input"
+          >
+        </div>
+        
+        <button type="submit" class="btn cosmic-button w-100">
+           Acceder al Portal
+        </button>
+      </form>
+      
+      <div v-if="error" class="alert alert-danger cosmic-alert">
+        {{ error }}
+      </div>
+      
+      <div class="login-footer">
+        <p><small>¿Problemas de acceso dimensional? Contacte al soporte intergaláctico.</small></p>
+        <p><small><strong>Demo:</strong> ciudadano@uresa.com / universo2024</small></p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import usuarios from '../data/usuarios.json'
 
-export default {
-  name: 'LoginView',
-  data() {
-    return {
-      credentials: {
-        email: '',
-        password: ''
-      },
-      error: ''
-    }
-  },
-  methods: {
-    login() {
-      const user = usuarios.find(u => 
-        u.email === this.credentials.email && 
-        u.password === this.credentials.password
-      )
-      
-      if (user) {
-        localStorage.setItem('user', JSON.stringify(user))
-        this.$router.push('/dashboard/productos')
-      } else {
-        this.error = 'Credenciales incorrectas. Intenta nuevamente.'
-      }
-    }
-  }
-}
-</script>
