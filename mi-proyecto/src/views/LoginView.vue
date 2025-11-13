@@ -1,71 +1,76 @@
 <template>
-  <div class="login-container">
-    <div class="cosmic-header">
-      <div class="login-logo-container">
-        <img src="@/assets/img/favicon.png" alt="U.R.E.S.A. Logo" class="login-logo" />
-        <div class="login-logo-text">
-          <h1>U.R.E.S.A.</h1>
-          <p>Universal Real Estate & Experiences S.A.</p>
+  <div class="login-container min-vh-100 d-flex align-items-center justify-content-center bg-light">
+    <div class="card shadow-lg" style="width: 400px;">
+      <div class="card-body p-5">
+        <div class="text-center mb-4">
+          <h2 class="text-primary-custom fw-bold">🔥 Intimacy Shop</h2>
+          <p class="text-muted">Ingresa a tu cuenta</p>
+        </div>
+        
+        <form @submit.prevent="login">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input 
+              type="email" 
+              class="form-control" 
+              id="email" 
+              v-model="credentials.email"
+              required
+            >
+          </div>
+          
+          <div class="mb-4">
+            <label for="password" class="form-label">Contraseña</label>
+            <input 
+              type="password" 
+              class="form-control" 
+              id="password" 
+              v-model="credentials.password"
+              required
+            >
+          </div>
+          
+          <button type="submit" class="btn btn-primary-custom w-100 py-2">
+            Iniciar Sesión
+          </button>
+        </form>
+
+        <div v-if="error" class="alert alert-danger mt-3" role="alert">
+          {{ error }}
         </div>
       </div>
-      <p class="subtitle">Acceso Exclusivo para Ciudadanos Galácticos</p>
-    </div>
-
-    <form @submit.prevent="handleLogin" class="login-form">
-      <div class="input-group">
-        <label for="email">Correo Electrónico Cósmico:</label>
-        <input v-model="email" type="email" id="email" required placeholder="ciudadano@uresa.com" />
-      </div>
-
-      <div class="input-group">
-        <label for="password">Contraseña Dimensional:</label>
-        <input v-model="password" type="password" id="password" required placeholder="••••••••" />
-      </div>
-
-      <button type="submit" class="cosmic-button">Acceder al Portal</button>
-    </form>
-
-    <div v-if="error" class="error-message">
-       {{ error }}
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
-import { useAuth } from '@/composables/useAuth'
+import usuarios from '../data/usuarios.json'
 
 export default {
-  setup() {
-    const email = ref('')
-    const password = ref('')
-    const { login, error } = useAuth()
-
-    const handleLogin = () => {
-      login(email.value, password.value)
+  name: 'LoginView',
+  data() {
+    return {
+      credentials: {
+        email: '',
+        password: ''
+      },
+      error: ''
     }
-
-    return { email, password, handleLogin, error }
+  },
+  methods: {
+    login() {
+      const user = usuarios.find(u => 
+        u.email === this.credentials.email && 
+        u.password === this.credentials.password
+      )
+      
+      if (user) {
+        localStorage.setItem('user', JSON.stringify(user))
+        this.$router.push('/dashboard/productos')
+      } else {
+        this.error = 'Credenciales incorrectas. Intenta nuevamente.'
+      }
+    }
   }
 }
 </script>
-
-<style scoped>
-.login-container {
-  max-width: 500px;
-  margin: auto;
-  padding: 2rem;
-  text-align: center;
-}
-.cosmic-button {
-  background-color: var(--color-primary);
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  cursor: pointer;
-}
-.error-message {
-  margin-top: 1rem;
-  color: red;
-}
-</style>
