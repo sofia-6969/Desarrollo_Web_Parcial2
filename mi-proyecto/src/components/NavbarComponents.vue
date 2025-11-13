@@ -1,49 +1,28 @@
 <template>
-  <header class="top-header">
-    <div class="header-content">
-      <div class="logo-container">
-        <router-link to="/dashboard" style="display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit;">
-          <img src="@/assets/favicon.png" alt="U.R.E.S.A. Logo" class="site-logo">
-          <div class="logo-text">
-            <h1>U.R.E.S.A.</h1>
-            <p>Universal Real Estate & Experiences</p>
-          </div>
-        </router-link>
-      </div>
-      
-      <div class="welcome-message">
-        Bienvenido, {{ user.name || 'Explorador Galáctico' }}
-      </div>
-      
-      <div class="header-actions">
-        <button @click="handleLogout" class="logout-btn">Cerrar Sesión</button>
-      </div>
+  <nav class="navbar navbar-dark bg-primary-custom fixed-top">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1"> Intimacy Shop - Panel Admin</span>
+      <button class="btn btn-outline-light" @click="logout">
+        Cerrar Sesión
+      </button>
     </div>
-  </header>
+  </nav>
 </template>
 
 <script>
-import { useAuth } from '@/composables/useAuth'
-
 export default {
   name: 'NavbarComponent',
-  setup() {
-    const { user, logout } = useAuth()
-
-    const handleLogout = () => {
-      if (confirm('¿Salir del portal galáctico?')) {
-        logout()
-      }
-    }
-
-    return {
-      user,
-      handleLogout
+  methods: {
+    logout() {
+      localStorage.removeItem('user')
+      this.$router.push('/login')
     }
   }
 }
 </script>
 
 <style scoped>
-/* Los estilos están en components.scss */
+.navbar {
+  margin-bottom: 0;
+}
 </style>
