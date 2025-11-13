@@ -1,51 +1,59 @@
 <template>
-  <aside class="sidebar">
-    <nav class="sidebar-nav">
-      <h3> Navegación Cósmica</h3>
-      <ul>
-        <li>
-          <router-link to="/dashboard" class="nav-item" :class="{ active: $route.name === 'Home' }">
-             Inicio
+  <div class="sidebar col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+    <div class="position-sticky pt-5">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <router-link 
+            to="/dashboard/productos" 
+            class="nav-link active"
+            active-class="active"
+          >
+            🛍️ Productos
           </router-link>
         </li>
-        <li>
-          <router-link to="/dashboard/productos" class="nav-item" :class="{ active: $route.name === 'Productos' }">
-             Gestión de Productos
-          </router-link>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            👥 Clientes
+          </a>
         </li>
-        <li>
-          <router-link to="/dashboard/perfil" class="nav-item" :class="{ active: $route.name === 'Perfil' }">
-             Perfil
-          </router-link>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            📊 Reportes
+          </a>
         </li>
       </ul>
-    </nav>
-    <div class="sidebar-info">
-      <h4> Tu Estado</h4>
-      <div class="user-stats">
-        <div class="stat"><span>Rango:</span><strong>{{ user.rank || 'Explorador Estelar' }}</strong></div>
-        <div class="stat"><span>Propiedades:</span><strong>3</strong></div>
-        <div class="stat"><span>Créditos:</span><strong>₡1,250,000</strong></div>
-      </div>
     </div>
-  </aside>
+  </div>
 </template>
 
 <script>
-import { useAuth } from '@/composables/useAuth'
-
 export default {
-  name: 'SidebarComponent',
-  setup() {
-    const { user } = useAuth()
-
-    return {
-      user
-    }
-  }
+  name: 'SidebarComponent'
 }
 </script>
 
 <style scoped>
-/* Los estilos están en components.scss */
+.sidebar {
+  position: fixed;
+  top: 56px;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  padding: 48px 0 0;
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+.nav-link {
+  color: #333;
+  padding: 10px 15px;
+}
+
+.nav-link.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.nav-link:hover {
+  background-color: #e9ecef;
+}
 </style>
