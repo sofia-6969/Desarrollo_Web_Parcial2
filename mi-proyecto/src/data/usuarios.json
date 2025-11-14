@@ -1,26 +1,14 @@
 [
   {
     "id": 1,
-    "email": "ciudadano@uresa.com",
-    "password": "universo2024",
-    "name": "Explorador Estelar",
-    "role": "user",
-    "rank": "Explorador Estelar",
-    "memberSince": "Enero 2025",
-    "properties": 3,
-    "experiences": 2,
-    "credits": "₡1,250,000"
+    "email": "admin@intimacyshop.com",
+    "password": "admin123",
+    "name": "Administrador"
   },
   {
     "id": 2,
-    "email": "admin@uresa.com",
-    "password": "admin123",
-    "name": "Administrador Galáctico",
-    "role": "admin",
-    "rank": "Administrador Dimensional",
-    "memberSince": "Enero 2025",
-    "properties": 10,
-    "experiences": 8,
-    "credits": "₡5,000,000"
+    "email": "vendedor@intimacyshop.com",
+    "password": "vendedor123",
+    "name": "Vendedor"
   }
 ]
