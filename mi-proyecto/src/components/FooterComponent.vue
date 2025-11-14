@@ -1,23 +1,7 @@
 <template>
-  <footer class="main-footer">
-    <div class="footer-content">
-      <div class="footer-section">
-        <h4>U.R.E.S.A.</h4>
-        <p>Universal Real Estate & Experiences S.A.</p>
-        <p>Expandiendo fronteras desde 2025</p>
-      </div>
-      <div class="footer-section">
-        <h4>Contacto</h4>
-        <p>📧 soporte@uresa.com</p>
-        <p>📞 +1-800-COSMOS</p>
-      </div>
-      <div class="footer-section">
-        <h4>Legal</h4>
-        <p><small>Todos los derechos dimensionales reservados</small></p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2025 U.R.E.S.A. - Proyecto Educativo</p>
+  <footer class="footer mt-auto py-3 bg-dark text-white">
+    <div class="container text-center">
+      <span>&copy; 2024 Intimacy Shop. Todos los derechos reservados.</span>
     </div>
   </footer>
 </template>
@@ -29,5 +13,10 @@ export default {
 </script>
 
 <style scoped>
-/* Los estilos están en components.scss */
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1020;
+}
 </style>

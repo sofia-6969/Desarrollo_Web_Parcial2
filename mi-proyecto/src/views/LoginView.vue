@@ -16,6 +16,7 @@
               id="email" 
               v-model="credentials.email"
               required
+              placeholder="admin@intimacyshop.com"
             >
           </div>
           
@@ -27,6 +28,7 @@
               id="password" 
               v-model="credentials.password"
               required
+              placeholder="admin123"
             >
           </div>
           
@@ -34,6 +36,12 @@
             Iniciar Sesión
           </button>
         </form>
+
+        <div class="mt-3 text-center">
+          <small class="text-muted">
+            Demo: admin@intimacyshop.com / admin123
+          </small>
+        </div>
 
         <div v-if="error" class="alert alert-danger mt-3" role="alert">
           {{ error }}
@@ -68,7 +76,7 @@ export default {
         localStorage.setItem('user', JSON.stringify(user))
         this.$router.push('/dashboard/productos')
       } else {
-        this.error = 'Credenciales incorrectas. Intenta nuevamente.'
+        this.error = 'Credenciales incorrectas. Usa: admin@intimacyshop.com / admin123'
       }
     }
   }
