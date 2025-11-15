@@ -35,7 +35,7 @@ src/
 ## 🎯 Funcionalidades
 ### Productos
 - Agregar, editar, eliminar productos
-- Categorías: Juguetes, Lencería, Cosmética
+- Categorías: Juguetes, Lencería, Cosmética, cuidado personal
 - Imágenes con placeholders
 
 ### Clientes  
