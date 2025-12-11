@@ -1,88 +1,126 @@
-// Datos iniciales de productos para sexshop
-let products = [
-  {
-    "id": 1,
-    "title": "Vibrador Rabbit",
-    "price": 89.99,
-    "description": "Vibrador multifuncional con estimulación clitoridiana y punto G. Material silicona médica, impermeable.",
-    "image": "/images/vibradorRabbit.jpg",
-    "category": "juguetes"
-  },
-  {
-    "id": 2,
-    "title": "Lencería Encaje Negro",
-    "price": 45.50,
-    "description": "Conjunto de lencería sensual en encaje negro premium. Incluye bra, tanga y ligas.",
-    "image": "/images/LenceríaEncajeNegro.jpeg",
-    "category": "lenceria"
-  },
-  {
-    "id": 3,
-    "title": "Aceite Masajes Sensuales",
-    "price": 25.99,
-    "description": "Aceite de masajes con esencia de vainilla y canela. Hidratante y de larga duración.",
-    "image": "/images/AceiteMasajesSensuales.jpg",
-    "category": "cosmetica"
-  },
-  {
-    "id": 4,
-    "title": "Juego de Esposas",
-    "price": 35.75,
-    "description": "Esposas de terciopelo suave con ajuste seguro. Incluye llave de liberación rápida.",
-    "image": "/images/JuegodeEsposas.jpg",
-    "category": "juguetes"
-  },
-  {
-    "id": 5,
-    "title": "Plug Anal",
-    "price": 67.99,
-    "description": "Plug anal de silicona médica suave y flexible. Base de seguridad ancha para prevención de accidentes. Ideal para principiantes.",
-    "image": "/images/PlugAnal.jpg",
-    "category": "juguetes"
+import axios from 'axios'
+
+// Configuración base de Axios para MockAPI
+const apiClient = axios.create({
+  baseURL: 'https://6939f534c8d59937aa0970ca.mockapi.io/api/v1',
+  headers: {
+    'Content-Type': 'application/json'
   }
-]
+})
 
-// Simular delay de API
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+// SERVICIO PARA USUARIOS
+export const userService = {
+  // Obtener todos los usuarios (para login y listado)
+  async getUsers() {
+    try {
+      const response = await apiClient.get('/usuarios')
+      return response.data
+    } catch (error) {
+      console.error('Error fetching users:', error)
+      throw error
+    }
+  },
 
+  // Crear nuevo usuario
+  async createUser(userData) {
+    try {
+      const response = await apiClient.post('/usuarios', userData)
+      return response.data
+    } catch (error) {
+      console.error('Error creating user:', error)
+      throw error
+    }
+  },
+
+  // Actualizar usuario
+  async updateUser(id, userData) {
+    try {
+      const response = await apiClient.put(`/usuarios/${id}`, userData)
+      return response.data
+    } catch (error) {
+      console.error('Error updating user:', error)
+      throw error
+    }
+  },
+
+  // Eliminar usuario
+  async deleteUser(id) {
+    try {
+      const response = await apiClient.delete(`/usuarios/${id}`)
+      return response.data
+    } catch (error) {
+      console.error('Error deleting user:', error)
+      throw error
+    }
+  },
+
+  // Validar credenciales de login
+  async validateCredentials(email, password) {
+    try {
+      const users = await this.getUsers()
+      const user = users.find(u => u.email === email && u.password === password)
+      return user || null
+    } catch (error) {
+      console.error('Error validating credentials:', error)
+      return null
+    }
+  }
+}
+
+// SERVICIO PARA PRODUCTOS
 export const productService = {
+  // Obtener todos los productos
   async getProducts() {
-    await delay(500)
-    return [...products]
+    try {
+      const response = await apiClient.get('/productos')
+      return response.data
+    } catch (error) {
+      console.error('Error fetching products:', error)
+      throw error
+    }
   },
 
+  // Obtener un producto por ID
   async getProduct(id) {
-    await delay(300)
-    return products.find(p => p.id === id)
-  },
-
-  async createProduct(product) {
-    await delay(400)
-    const newProduct = {
-      ...product,
-      id: Math.max(...products.map(p => p.id)) + 1
+    try {
+      const response = await apiClient.get(`/productos/${id}`)
+      return response.data
+    } catch (error) {
+      console.error('Error fetching product:', error)
+      throw error
     }
-    products.push(newProduct)
-    return newProduct
   },
 
-  async updateProduct(id, product) {
-    await delay(400)
-    const index = products.findIndex(p => p.id === id)
-    if (index !== -1) {
-      products[index] = { ...product, id }
-      return products[index]
+  // Crear nuevo producto
+  async createProduct(productData) {
+    try {
+      const response = await apiClient.post('/productos', productData)
+      return response.data
+    } catch (error) {
+      console.error('Error creating product:', error)
+      throw error
     }
-    throw new Error('Producto no encontrado')
   },
 
+  // Actualizar producto
+  async updateProduct(id, productData) {
+    try {
+      const response = await apiClient.put(`/productos/${id}`, productData)
+      return response.data
+    } catch (error) {
+      console.error('Error updating product:', error)
+      throw error
+    }
+  },
+
+  // Eliminar producto
   async deleteProduct(id) {
-    await delay(300)
-    const index = products.findIndex(p => p.id === id)
-    if (index !== -1) {
-      const deleted = products.splice(index, 1)
-      return deleted[0]
+    try {
+      const response = await apiClient.delete(`/productos/${id}`)
+      return response.data
+    } catch (error) {
+      console.error('Error deleting product:', error)
+      throw error
     }
-    throw new Error('Producto no encontrado')
   }
 }
