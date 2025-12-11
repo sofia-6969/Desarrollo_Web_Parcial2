@@ -12,22 +12,26 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: LoginView
+    component: LoginView,
+    meta: { requiresAuth: false }
   },
   {
     path: '/dashboard',
     name: 'Dashboard',
     component: DashboardView,
+    meta: { requiresAuth: true },
     children: [
       {
         path: 'productos',
         name: 'Productos',
-        component: ProductView
+        component: ProductView,
+        meta: { requiresAuth: true }
       },
       {
         path: 'clientes',
         name: 'Clientes',
-        component: ClientView
+        component: ClientView,
+        meta: { requiresAuth: true }
       }
     ]
   }
@@ -36,6 +40,26 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes
+})
+
+// GUARDIA DE NAVEGACIÓN (Navigation Guard)
+router.beforeEach((to, from, next) => {
+  // Verificar si la ruta requiere autenticación
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  
+  // Verificar si hay sesión activa
+  const isAuthenticated = !!sessionStorage.getItem('authToken')
+  
+  if (requiresAuth && !isAuthenticated) {
+    // Redirigir a login si no está autenticado
+    next('/login')
+  } else if (to.path === '/login' && isAuthenticated) {
+    // Si ya está autenticado y trata de ir a login, redirigir al dashboard
+    next('/dashboard/productos')
+  } else {
+    // Continuar normalmente
+    next()
+  }
 })
 
 export default router
